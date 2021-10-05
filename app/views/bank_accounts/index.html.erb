@@ -1,0 +1,32 @@
+<h1>Minhas Contas:</h1>
+<%= link_to "Abrir Nova Conta", new_bank_account_path, class: "btn btn-primary" %>
+<table  class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">
+        Número da Conta
+      </th>
+      <th scope="col">
+        Saldo
+      </th>
+      <th scope="col">
+        Ações
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bank_accounts.each do |bank_account| %>
+      <tr>
+        <td>
+          <%= bank_account.account_number %>
+        </td>
+        <td>
+          <%= number_to_currency(bank_account.balance, unit: 'R$') %>
+        </td>
+        <td>
+          <%= link_to "Show", bank_account_path(bank_account.id), class: "btn btn-primary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
