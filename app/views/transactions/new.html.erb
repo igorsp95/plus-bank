@@ -1,9 +1,9 @@
- <%= simple_form_for(@transaction, url: new_bank_account_transaction_path, :html => { :class => '', :style => "" }) do |f| %>
-  <div >
+ <%= simple_form_for [@bank_account, @transaction] do |f| %>
+  <div class="form-group">
     <div class="">
-      <%= f.input :amount, label: 'Valor:', as: :decimal, placeholder: 'R$ 00,00' %>
+      <%= f.input :transaction_type, label:'Tipo de Transação', as: :string, placeholder: 'ex: Saque', class: "form-control"  %>
+      <%= f.input :amount, label: 'Valor:', as: :decimal, placeholder: 'R$ 00,00', class: "form-control" %>
     </div>
-
   </div>
   <%= f.button :submit, "Fazer Depósito", class: 'btn-primary', style: 'width: 100%'%>
 <% end %>

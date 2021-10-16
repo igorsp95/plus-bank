@@ -26,7 +26,7 @@
             <%= t.created_at %>
           </td>
           <td>
-            <%# <%= t.transaction_type %> %>
+            <%= t.transaction_type %>
           </td>
           <td>
             <%= number_to_currency(t.amount, unit: 'R$') %>

@@ -3,6 +3,7 @@ class CreateTransactions < ActiveRecord::Migration[6.0]
     create_table :transactions do |t|
       t.decimal :amount
       t.references :bank_account, null: false, foreign_key: true
+      t.string :transaction_type
 
       t.timestamps
     end
