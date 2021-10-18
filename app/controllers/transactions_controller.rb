@@ -34,11 +34,18 @@ class TransactionsController < ApplicationController
       end
     elsif @transaction.transaction_type == 'Transferência'
       if @bank_account.balance >= @transaction.amount
-        @transaction.save
-        @bank_account.update!(balance: @bank_account.balance - @amount)
-        # @transaction.account_receiver = BankAccount.find_by_account_number(:account_number)
-        @transaction.account_receiver.update!(balance: @transaction.account_receiver.balance + @amount)
-        redirect_to bank_account_path(@bank_account.id), notice: 'Transferência realizada com sucesso.'
+        @account_receiver = BankAccount.find_by(params[:transaction][:account_number])
+        # raise
+        if @account_receiver == nil
+          flash[:notice] = 'Essa conta não existe.'
+          render :new
+        else
+          @transaction.account_receiver = @account_receiver.account_number
+          @transaction.save
+          @bank_account.update!(balance: @bank_account.balance - @amount)
+          @account_receiver.update!(balance: @account_receiver.balance + @amount)
+          redirect_to bank_account_path(@bank_account.id), notice: 'Transferência realizada com sucesso.'
+        end
       else
         flash[:notice] = 'Você não tem saldo suficiente para essa transação.'
         render :new
