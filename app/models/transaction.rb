@@ -6,6 +6,8 @@ class Transaction < ApplicationRecord
   validates :bank_account, presence: true
   validates :amount, presence: true, numericality: true
   validates :transaction_type, presence: true, inclusion: { in: TRANSACTION_TYPE}
-  # validates :transaction_number, presence: true, uniqueness: true
+  if :transaction_type == 'Transferência'
+    validates :account_receiver, presence: true
+  end
 
 end

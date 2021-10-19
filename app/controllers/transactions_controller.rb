@@ -42,16 +42,19 @@ class TransactionsController < ApplicationController
       end
     elsif @transaction.transaction_type == 'Transferência'
       if @bank_account.balance >= @transf_amount
-        @account_receiver = BankAccount.find_by_account_number(@transaction.account_receiver)
-        if @account_receiver != nil
+        @account_receiver = BankAccount.find_by_account_number(@transaction.account_receiver)    
+        if @account_receiver != nil && @account_receiver.account_number != @bank_account.account_number
           @transaction.save
           @transaction.account_receiver = @account_receiver.account_number        
           @bank_account.update!(balance: @bank_account.balance - @transf_amount)
           Transaction.create!(amount: @transaction.amount, bank_account_id: @account_receiver.id, transaction_type: 'Transferência Recebida', account_receiver: @account_receiver.account_number, account_sender: @transaction.account_sender)
           @account_receiver.update!(balance: @account_receiver.balance + @transaction.amount)
           redirect_to bank_account_path(@bank_account.id), notice: 'Transferência realizada com sucesso.'
+        elsif @account_receiver != nil && @account_receiver.account_number == @bank_account.account_number
+          flash[:notice] = 'Você não pode transferir para a mesma conta.'
+          render :new
         else
-          flash[:notice] = 'Essa conta não existe.'
+          flash[:notice] = 'Essa conta não existe ou o campo "Número da Conta" não foi preenchido.'
           render :new
         end
       else

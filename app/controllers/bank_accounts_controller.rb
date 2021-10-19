@@ -24,6 +24,7 @@ class BankAccountsController < ApplicationController
     if @bank_account.save
       redirect_to bank_account_path(@bank_account.id)
     else
+      flash[:notice] = 'Algo deu errado. Tente novamente mais tarde.'
       render :new
     end
   end

@@ -29,7 +29,7 @@
             <% if t.transaction_type == 'Transferência Recebida'%>
               <%= t.transaction_type %> de <strong><%= t.account_sender %></strong>
             <% else %>
-              <%= t.transaction_type %>
+              <%= t.transaction_type %> para <strong><%= t.account_receiver %></strong>
             <% end %>
           </td>
           <td>

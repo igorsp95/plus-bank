@@ -1,9 +1,9 @@
  <%= simple_form_for [@bank_account, @transaction] do |f| %>
   <div class="form-group">
     <div class="">
-      <%= f.input :transaction_type, label:'Tipo de Transação', collection:['Saque', 'Depósito', 'Transferência'], class: "form-control" %>
-      <%= f.input :account_receiver, label: 'Número da Conta:', as: :string, placeholder: 'ex: 902317', class: "form-control" %>
-      <%= f.input :amount, label: 'Valor:', as: :decimal, placeholder: 'R$ 00,00', class: "form-control" %>
+      <%= f.input :transaction_type, prompt: 'Escolha o tipo de transação', collection:['Saque', 'Depósito', 'Transferência'], class: "form-control", label:false %>
+      <%= f.input :account_receiver, as: :string, placeholder: 'Número da Conta', class: "form-control", label:false %>
+      <%= f.input :amount, as: :decimal, placeholder: 'Valor', class: "form-control", label:false, input_html: { min: '0', step: '0.50'}%>
     </div>
   </div>
   <%= f.button :submit, "Fazer Transação", class: 'btn-primary', style: 'width: 100%'%>
