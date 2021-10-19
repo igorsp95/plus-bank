@@ -29,7 +29,13 @@
             <%= t.transaction_type %>
           </td>
           <td>
-            <%= number_to_currency(t.amount, unit: 'R$') %>
+            <% if t.transaction_type == 'Depósito'%>
+              <%= number_to_currency(t.amount, unit: '+ R$') %>
+            <% elsif t.transaction_type == 'Saque'%>
+              <%= number_to_currency(t.amount, unit: '- R$') %>
+            <% else%>
+              <%= number_to_currency(t.amount, unit: '- R$') %>
+            <% end %>
           </td>
         </tr>
       <% end %>

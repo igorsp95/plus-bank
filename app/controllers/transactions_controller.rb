@@ -33,7 +33,7 @@ class TransactionsController < ApplicationController
       end
     elsif @transaction.transaction_type == 'Transferência'
       if @bank_account.balance >= @transaction.amount
-        @account_receiver = BankAccount.find_by(params[:transaction][:account_number])
+        @account_receiver = BankAccount.find_by_account_number(@transaction.account_receiver)
         if @account_receiver != nil
           @transaction.save
           @transaction.account_receiver = @account_receiver.account_number
