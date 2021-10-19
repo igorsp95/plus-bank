@@ -1,7 +1,7 @@
 class Transaction < ApplicationRecord
   belongs_to :bank_account
 
-  TRANSACTION_TYPE = ['Saque', 'Depósito', 'Transferência']
+  TRANSACTION_TYPE = ['Saque', 'Depósito', 'Transferência', 'Transferência Recebida']
 
   validates :bank_account, presence: true
   validates :amount, presence: true, numericality: true

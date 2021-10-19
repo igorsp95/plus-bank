@@ -23,13 +23,25 @@
       <% @bank_account.transactions.each do |t| %>
         <tr>
           <td>
-            <%= t.created_at %>
+            <%= t.created_at.time.strftime("%d of %B, %Y") %> - <%= t.created_at.time.strftime("%k:%M") %>
           </td>
           <td>
-            <%= t.transaction_type %>
+            <% if t.transaction_type == 'Transferência Recebida'%>
+              <%= t.transaction_type %> de <strong><%= t.account_sender %></strong>
+            <% else %>
+              <%= t.transaction_type %>
+            <% end %>
           </td>
           <td>
-            <%= number_to_currency(t.amount, unit: 'R$') %>
+            <% if t.transaction_type == 'Depósito'%>
+              <%= number_to_currency(t.amount, unit: '+ R$') %>
+            <% elsif t.transaction_type == 'Saque'%>
+              <%= number_to_currency(t.amount, unit: '- R$') %>
+            <% elsif t.transaction_type == 'Transferência' %>
+              <%= number_to_currency(t.amount, unit: '- R$') %> + taxa
+            <% elsif t.transaction_type == 'Transferência Recebida' %>
+              <%= number_to_currency(t.amount, unit: '+ R$') %>  
+            <% end %>
           </td>
         </tr>
       <% end %>
