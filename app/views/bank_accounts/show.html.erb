@@ -1,60 +1,66 @@
-<div class="">
-  <h1>Olá, <%= @user.email %>!</h1>
-  <h4>Conta: <%= @bank_account.account_number %></h4>
-</div>
-<%= link_to "Fazer Transação", new_bank_account_transaction_path(@bank_account.id), class: "btn btn-primary" %>
-<%= link_to "Minhas Contas", bank_accounts_path(@bank_account), class: "btn btn-primary" %>
-<div>
-  <table  class="table table-bordered">
-    <thead>
-      <tr>
-        <th scope="col">
-          Data da Transação
-        </th>
-        <th scope="col">
-          Tipo de Transação
-        </th>
-        <th scope="col">
-          Total
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @bank_account.transactions.each do |t| %>
+<div class="my-card">
+  <div class="d-flex justify-content-between">
+    <div>
+      <h1>Olá, <%= @user.email %>!</h1>
+      <h4>Conta: <%= @bank_account.account_number %></h4>
+    </div>
+    <div >
+      <%= link_to "Fazer Transação", new_bank_account_transaction_path(@bank_account.id), class: "button-6 mb-2" %>
+      <%= link_to "Minhas Contas", bank_accounts_path(@bank_account), class: "button-6" %>
+    </div>
+  </div>
+  <div>
+    <table  class="table table-bordered text-light mt-3">
+      <thead>
         <tr>
-          <td>
-            <%= t.created_at.time.strftime("%d of %B, %Y") %> - <%= t.created_at.time.strftime("%k:%M") %>
-          </td>
-          <td>
-            <% if t.transaction_type == 'Transferência Recebida'%>
-              <%= t.transaction_type %> de <strong><%= t.account_sender %></strong>
-            <% else %>
-              <%= t.transaction_type %> para <strong><%= t.account_receiver %></strong>
-            <% end %>
-          </td>
-          <td>
-            <% if t.transaction_type == 'Depósito'%>
-              <%= number_to_currency(t.amount, unit: '+ R$') %>
-            <% elsif t.transaction_type == 'Saque'%>
-              <%= number_to_currency(t.amount, unit: '- R$') %>
-            <% elsif t.transaction_type == 'Transferência' %>
-              <%= number_to_currency(t.amount, unit: '- R$') %> + taxa
-            <% elsif t.transaction_type == 'Transferência Recebida' %>
-              <%= number_to_currency(t.amount, unit: '+ R$') %>  
-            <% end %>
-          </td>
+          <th scope="col">
+            Data da Transação
+          </th>
+          <th scope="col">
+            Tipo de Transação
+          </th>
+          <th scope="col">
+            Total
+          </th>
         </tr>
-      <% end %>
-      <tr>
-        <th>
-        </th>
-        <th>
-          Saldo
-        </th>
-        <th>
-          <%= number_to_currency(@bank_account.balance, unit: 'R$') %>
-        </th>
-      </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @bank_account.transactions.each do |t| %>
+          <tr>
+            <td>
+              <%= t.created_at.time.strftime("%d of %B, %Y") %> - <%= t.created_at.time.strftime("%k:%M") %>
+            </td>
+            <td>
+              <% if t.transaction_type == 'Transferência Recebida'%>
+                <%= t.transaction_type %> de <strong><%= t.account_sender %></strong>
+              <% else %>
+                <%= t.transaction_type %> para <strong><%= t.account_receiver %></strong>
+              <% end %>
+            </td>
+            <td>
+              <% if t.transaction_type == 'Depósito'%>
+                <%= number_to_currency(t.amount, unit: '+ R$') %>
+              <% elsif t.transaction_type == 'Saque'%>
+                <%= number_to_currency(t.amount, unit: '- R$') %>
+              <% elsif t.transaction_type == 'Transferência' %>
+                <%= number_to_currency(t.amount, unit: '- R$') %> + taxa
+              <% elsif t.transaction_type == 'Transferência Recebida' %>
+                <%= number_to_currency(t.amount, unit: '+ R$') %>  
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <th>
+          </th>
+          <th>
+            Saldo
+          </th>
+          <th>
+            <%= number_to_currency(@bank_account.balance, unit: 'R$') %>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
