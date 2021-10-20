@@ -9,7 +9,6 @@ class BankAccountsController < ApplicationController
     unless @bank_account.user == current_user
       redirect_to bank_accounts_path
     end
-    # authorize @bank_account
   end
 
   def new

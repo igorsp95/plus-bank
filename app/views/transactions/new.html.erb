@@ -1,10 +1,16 @@
- <%= simple_form_for [@bank_account, @transaction] do |f| %>
-  <div class="form-group">
-    <div class="">
-      <%= f.input :transaction_type, prompt: 'Escolha o tipo de transação', collection:['Saque', 'Depósito', 'Transferência'], class: "form-control", label:false %>
-      <%= f.input :account_receiver, as: :string, placeholder: 'Número da Conta', class: "form-control", label:false %>
-      <%= f.input :amount, as: :decimal, placeholder: 'Valor', class: "form-control", label:false, input_html: { min: '0', step: '0.50'}%>
+ <div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="my-card col-xs-12 col-sm-6 col-sm-offset-4">
+      <%= simple_form_for [@bank_account, @transaction] do |f| %>
+        <div class="form-group">
+          <div class="">
+            <%= f.input :transaction_type, prompt: 'Escolha o tipo de transação', collection:['Saque', 'Depósito', 'Transferência'], class: "form-control", label:false %>
+            <%= f.input :account_receiver, as: :string, placeholder: 'Número da Conta', class: "form-control", label:false %>
+            <%= f.input :amount, as: :decimal, placeholder: 'Valor', class: "form-control", label:false, input_html: { min: '0', step: '0.50'}%>
+          </div>
+        </div>
+        <%= f.button :submit, "Fazer Transação", class: 'button-7', style: 'width: 100%'%>
+      <% end %>
     </div>
   </div>
-  <%= f.button :submit, "Fazer Transação", class: 'btn-primary', style: 'width: 100%'%>
-<% end %>
+ </div>
