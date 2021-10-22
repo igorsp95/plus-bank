@@ -2,18 +2,18 @@
   <div class="my-card">
     <div class="d-flex justify-content-between">
       <div>
-        <h1>Olá, <%= @user.email %>!</h1>
-        <h4 class="account">Conta: <%= @bank_account.account_number %></h4>
+        <h1 class="mb-4">Hello, <%= @user.first_name.capitalize %>!</h1>
+        <h4 class="account">Account: <%= @bank_account.account_number %></h4>
       </div>
-      <div>
-        <%= link_to "Fazer Transação", new_bank_account_transaction_path(@bank_account.id), class: "button-6 mb-2" %>
-        <%= link_to "Minhas Contas", bank_accounts_path(@bank_account), class: "button-6" %>
+      <div class="align-self-end">
+        <%= link_to "Make Transaction", new_bank_account_transaction_path(@bank_account.id), class: "button-6 mb-2" %>
+        <%= link_to "My Accounts", bank_accounts_path(@bank_account), class: "button-6" %>
       </div>
     </div>
-    <hr class="mb-5">
+    <hr class="mb-4">
     <div class="d-flex justify-content-between">
-      <h2>Saldo</h2>
-      <span class="saldo"><%= number_to_currency(@bank_account.balance, unit: 'R$') %></span>
+      <h2>Balance</h2>
+      <span class="saldo"><%= number_to_currency(@bank_account.balance, unit: 'U$') %></span>
     </div>
     <div>
       <table  class="table table-striped table-bordered mt-3">
@@ -21,25 +21,25 @@
           <% @bank_account.transactions.reverse.each do |t| %>
             <tr>
               <td class="trans-date">
-                <%= t.created_at.time.strftime("%d of %B, %Y") %> - <%= t.created_at.time.strftime("%k:%M") %>
+                <%= t.created_at.time.strftime("%d of %B, %Y") %> - <%= t.created_at.time.strftime("%I:%M %p") %>
               </td>
               <td class="trans-type">
-                <% if t.transaction_type == 'Transferência Recebida'%>
-                  <%= t.transaction_type %> de <%= t.account_sender %>
-                <% elsif t.transaction_type == 'Transferência'%>
-                  <%= t.transaction_type %> para <%= t.account_sender %>
+                <% if t.transaction_type == 'Transfer Received'%>
+                  <%= t.transaction_type %> by <%= t.account_sender %>
+                <% elsif t.transaction_type == 'Transfer'%>
+                  <%= t.transaction_type %> to <%= t.account_sender %>
                 <% else %>
                   <%= t.transaction_type %>
                 <% end %>
               </td>
               <td>
-                <% if t.transaction_type == 'Depósito'%>
+                <% if t.transaction_type == 'Deposit'%>
                   <%= number_to_currency(t.amount, unit: '+ R$') %>
-                <% elsif t.transaction_type == 'Saque'%>
+                <% elsif t.transaction_type == 'Withdraw'%>
                   <%= number_to_currency(t.amount, unit: '- R$') %>
-                <% elsif t.transaction_type == 'Transferência' %>
-                  <%= number_to_currency(t.amount, unit: '- R$') %> + taxa
-                <% elsif t.transaction_type == 'Transferência Recebida' %>
+                <% elsif t.transaction_type == 'Transfer' %>
+                  <%= number_to_currency(t.amount, unit: '- R$') %> + tax
+                <% elsif t.transaction_type == 'Transfer Received' %>
                   <%= number_to_currency(t.amount, unit: '+ R$') %>  
                 <% end %>
               </td>
