@@ -1,8 +1,9 @@
+
 <div class="container">
   <div class="my-card">
-    <h1 class="mb-4">Hello, <%= @user.first_name.capitalize %>!</h1>
+    <h1 class="mb-4 title" data-title>Hello, <%= @user.first_name.capitalize %>!</h1>
     <div class="d-flex justify-content-between">
-      <h2>My Accounts</h2>
+      <h2 class="">My Accounts</h2>
       <%= link_to "Create New Account", new_bank_account_path, class: "button-6" %>
     </div>
       <table  class="table table-striped table-bordered mt-3">
@@ -39,5 +40,6 @@
           <% end %>
         </tbody>
       </table>
+    </div>
   </div>
 </div>
