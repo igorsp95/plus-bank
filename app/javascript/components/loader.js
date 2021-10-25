@@ -4,9 +4,7 @@ const loaderWorking = () => {
   window.addEventListener('load', function () {
     // spinnerWrapper.style.display = 'none';
     spinnerWrapper.parentElement.removeChild(spinnerWrapper);
-    console.log('asdsd')
   });
 }
 
 export { loaderWorking };
-
