@@ -7,16 +7,29 @@
   margin: 88px 0;
   h1{
     font-size: 55px;
+    visibility: hidden;
   }
   h2{
     color: #3d3d3d;
+    visibility: hidden;
   }
   span {
     font-size: 34px;
+    visibility: hidden;
   }
   p {
     font-size: 14px;
     margin: 16px 0 0px 0;
+    visibility: hidden;
+  }
+  table {
+    th {
+      visibility: hidden;
+    }
+
+    td {
+      visibility: hidden;
+    }
   }
 }
 
