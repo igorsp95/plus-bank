@@ -1,43 +1,89 @@
-<div class="container">
-  <div class="my-card">
-    <h1 class="mb-4">Hello, <%= @user.first_name.capitalize %>!</h1>
-    <div class="d-flex justify-content-between">
-      <h2>My Accounts</h2>
-      <%= link_to "Create New Account", new_bank_account_path, class: "button-6" %>
-    </div>
-      <table  class="table table-striped table-bordered mt-3">
-        <thead>
-          <tr>
-            <th scope="col">
-              Account Number
-            </th>
-            <th scope="col">
-              Balance
-            </th>
-            <th scope="col">
+<div class="skeleton-template"></div>
 
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @bank_accounts.each do |bank_account| %>
-            <% if bank_account.user == current_user  %>
-              <tr>
-                <td>
-                  <%= link_to bank_account_path(bank_account.id), class:"bank-account-link" do %>
-                    <%= bank_account.account_number %>
-                  <% end %>
-                </td>
-                <td class="saldo-table">
-                  <%= number_to_currency(bank_account.balance, unit: 'R$') %>
-                </td>
-                <td class="text-center">
-                  <%= link_to "Extract", bank_account_path(bank_account.id), class: "button-8" %>
-                </td>
-              </tr>
+<template id="card-template">
+  <div class="container">
+    <div class="my-card">
+      <h1 class="mb-4 title skeleton skeleton-title">Hello, <%= @user.first_name.capitalize %>!</h1>
+      <div class="d-flex justify-content-between">
+        <h2 class="title skeleton skeleton-subtitle">My Accounts</h2>
+        <%= link_to "Create New Account", new_bank_account_path, class: "button-6 skeleton" %>
+      </div>
+        <table  class="table table-striped table-bordered mt-3 skeleton">
+          <thead>
+            <tr>
+              <th scope="col">
+                Account Number
+              </th>
+              <th scope="col">
+                Balance
+              </th>
+              <th scope="col">
+
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @bank_accounts.each do |bank_account| %>
+              <% if bank_account.user == current_user  %>
+                <tr>
+                  <td>
+                    <%= link_to bank_account_path(bank_account.id), class:"bank-account-link" do %>
+                      <%= bank_account.account_number %>
+                    <% end %>
+                  </td>
+                  <td class="saldo-table">
+                    <%= number_to_currency(bank_account.balance, unit: 'R$') %>
+                  </td>
+                  <td class="text-center">
+                    <%= link_to "Extract", bank_account_path(bank_account.id), class: "button-8" %>
+                  </td>
+                </tr>
+              <% end %>
             <% end %>
-          <% end %>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-</div>
+</template>
+
+<script>
+  const skeletonTemplate = document.querySelector('.skeleton-template');
+  const cardTemplate = document.getElementById('card-template');
+  const title = document.querySelector('title').textContent;
+  for (let i = 0; i < 1; i++) {
+    skeletonTemplate.append(cardTemplate.content.cloneNode(true))
+  };
+
+  function renderSkeleton() {
+    console.log('hello')
+    skeletonTemplate.innerHTML = ''
+    const div = cardTemplate.content.cloneNode(true)
+    div.querySelector('.skeleton-title').textContent = title
+    // div.querySelector('[data-body]').textContent = post.body
+    grid.append(div)
+  }
+
+  // function name() {
+  // }
+  // const renderSkeleton = () => {
+  //   console.log('hello')
+  //   skeletonTemplate.innerHTML = ''
+  //   const div = cardTemplate.content.cloneNode(true)
+  //   // div.querySelector('.skeleton-title').textContent = post.title
+  //   // div.querySelector('[data-body]').textContent = post.body
+  //   grid.append(div)
+  // }
+
+  // fetch("https://jsonplaceholder.typicode.com/posts")
+  //   .then(res => res.json())
+  //   .then(posts => {
+  //     grid.innerHTML = ''
+  //     posts.forEach(post => {
+  //       const div = cardTemplate.content.cloneNode(true)
+  //       div.querySelector('[data-title]').textContent = post.title
+  //       div.querySelector('[data-body]').textContent = post.body
+  //       grid.append(div)
+  //     })
+  // })
+</script>
