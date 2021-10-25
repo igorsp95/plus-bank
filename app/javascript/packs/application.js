@@ -24,7 +24,9 @@ require("channels")
 
 // External imports
 import "bootstrap";
-import { loaderWorking } from '../components/loader';
+// import { loaderWorking } from '../components/loader';
+import { skeletonWorking } from '../components/skeleton';
+
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';
@@ -32,5 +34,6 @@ import { loaderWorking } from '../components/loader';
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   // initSelect2();
-  loaderWorking();
+  // loaderWorking();
+  skeletonWorking();
 });
