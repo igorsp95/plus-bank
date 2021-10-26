@@ -1,7 +1,13 @@
 class TransactionsController < ApplicationController
 
   def index
-    
+    @bank_account = BankAccount.find(params[:bank_account_id])
+    @transactions = @bank_account.transactions
+    if params[:query].present? && params[:query_2].present?
+      @transactions = Transaction.where(created_at: params[:query]..params[:query_2])
+    else
+      @transactions
+    end
   end
 
   def new
