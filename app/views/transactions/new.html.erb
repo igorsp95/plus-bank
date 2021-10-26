@@ -1,22 +1,22 @@
- <div class="container">
-  <div class="row d-flex justify-content-center">
-    <div class="my-card col-xs-12 col-sm-6 col-sm-offset-4">
-      <%= simple_form_for [@bank_account, @transaction] do |f| %>
-        <div class="form-group">
-          <div class="">
-            <%= f.input :transaction_type, prompt: 'Choose a transaction type', collection:['Withdraw', 'Deposit', 'Transfer'], class: "form-control", label:false, :input_html => {:onchange => "yesnoCheck(this)"}  %>
-            <div id="adc" style="display: none;">
-            <%= f.input :account_receiver, as: :string, placeholder: 'Account Number', class: "form-control", label:false %>
-            </div>
-            <%= f.input :amount, as: :decimal, placeholder: 'Amount', class: "form-control", label:false, input_html: { min: '0', step: '0.50'}%>
+<div class="container">
+<div class="row d-flex justify-content-center">
+  <div class="my-card col-xs-12 col-sm-6 col-sm-offset-4">
+    <%= simple_form_for [@bank_account, @transaction] do |f| %>
+      <div class="form-group">
+        <div class="">
+          <%= f.input :transaction_type, prompt: 'Choose a transaction type', collection:['Withdraw', 'Deposit', 'Transfer'], class: "form-control", label:false, :input_html => {:onchange => "yesnoCheck(this)"}  %>
+          <div id="adc" style="display: none;">
+          <%= f.input :account_receiver, as: :string, placeholder: 'Account Number', class: "form-control", label:false %>
           </div>
+          <%= f.input :amount, as: :decimal, placeholder: 'Amount', class: "form-control", label:false, input_html: { min: '0', step: '0.50'}%>
         </div>
-        <%= f.button :submit, "Create Transaction", class: 'button-7', style: 'width: 100%'%>
-      <% end %>
-      <p>Monday to Friday, 9AM to 6PM - <strong>Tax = U$5</strong><br>Other days and times - <strong>Tax = U$7</strong><br>Over U$1000 - <strong>Tax = U$10</strong></p>
-    </div>
+      </div>
+      <%= f.button :submit, "Create Transaction", class: 'button-7', style: 'width: 100%'%>
+    <% end %>
+    <p>Monday to Friday, 9AM to 6PM - <strong>Tax = U$5</strong><br>Other days and times - <strong>Tax = U$7</strong><br>Over U$1000 - <strong>Tax = U$10</strong></p>
   </div>
- </div>
+</div>
+</div>
 
 <script>
   function yesnoCheck(that) 

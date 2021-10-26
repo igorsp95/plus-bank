@@ -56,6 +56,7 @@
       <div class="align-self-end">
         <%= link_to "Make Transaction", new_bank_account_transaction_path(@bank_account.id), class: "button-6 mb-2" %>
         <%= link_to "My Accounts", bank_accounts_path(@bank_account), class: "button-6" %>
+        <%= link_to "Filter Transacrtion", bank_account_transactions_path(@bank_account), class: "button-6" %>
       </div>
     </div>
     <hr class="mb-4">
