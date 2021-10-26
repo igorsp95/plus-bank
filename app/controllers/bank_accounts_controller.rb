@@ -2,7 +2,7 @@ class BankAccountsController < ApplicationController
   def index
     @bank_accounts = BankAccount.all
     @user = current_user
-    
+  
   end
 
   def show

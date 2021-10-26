@@ -1,9 +1,9 @@
 const loaderWorking = () => {
-  let spinnerWrapper = document.querySelector('.spinner-wrapper');
+  let skeletonTemplate = document.querySelector('.skeleton-template');
   
   window.addEventListener('load', function () {
     // spinnerWrapper.style.display = 'none';
-    spinnerWrapper.parentElement.removeChild(spinnerWrapper);
+    skeletonTemplate.parentElement.removeChild(skeletonTemplate);
   });
 }
 
