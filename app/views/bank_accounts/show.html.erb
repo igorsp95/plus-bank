@@ -72,7 +72,7 @@
             <%
             if t.amount > 1000
               tax = 10
-            elsif Date.today.on_weekday? && (Time.new.strftime("%k%M") >= Time.new.strftime("900") || Time.new.strftime("%k%M") <= Time.new.strftime("1800"))
+            elsif t.created_at.on_weekday? && ((t.created_at.time.strftime("%k%M") >= Time.new.strftime("900")) || (t.created_at.time.strftime("%k%M") <= Time.new.strftime("1800")))
               tax = 5
             else
               tax = 7

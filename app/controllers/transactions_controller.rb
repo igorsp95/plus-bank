@@ -22,7 +22,7 @@ class TransactionsController < ApplicationController
     @transaction.account_sender = @bank_account.account_number
     if @transaction.amount > 1000
       tax = 10
-    elsif Date.today.on_weekday? && (Time.new.strftime("%k%M") >= Time.new.strftime("900") || Time.new.strftime("%k%M") <= Time.new.strftime("1800"))
+    elsif Date.today.on_weekday? && (Time.new.strftime("%k%M") >= Time.new.strftime("900") && Time.new.strftime("%k%M") <= Time.new.strftime("1800"))
       tax = 5
     else
       tax = 7
