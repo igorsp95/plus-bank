@@ -13,17 +13,15 @@
           %>
           <%= submit_tag "Search", class: "button-9" %>
         <% end %>
-
       </div>
     </div>
       <div class="d-flex justify-content-between mx-3">
         <h2>Balance</h2>
         <span class="saldo"><%= number_to_currency(@bank_account.balance, unit: 'U$') %></span>
       </div>
-
       <table  class="table table-striped table-bordered mt-3">
         <tbody>
-          <% @transactions.reverse.each do |t| %>
+          <% @transactions.each do |t| %>
           <%
             if t.amount > 1000
               tax = 10
