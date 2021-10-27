@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
     @bank_account = BankAccount.find(params[:bank_account_id])
     @transactions = @bank_account.transactions
     if params[:query].present? && params[:query_2].present?
-      @transactions = Transaction.where(created_at: params[:query]..params[:query_2])
+      @my_transactions = @transactions.where(created_at: params[:query].to_time.beginning_of_day...params[:query_2].to_time.end_of_day)
     else
       @transactions
     end
