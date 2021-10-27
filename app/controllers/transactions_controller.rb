@@ -20,14 +20,6 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new(transaction_params)
     @transaction.bank_account = @bank_account
     @transaction.account_sender = @bank_account.account_number
-    if @transaction.amount > 1000
-      tax = 10
-    elsif Date.today.on_weekday? && (Time.new.strftime("%k%M") >= Time.new.strftime("900") && Time.new.strftime("%k%M") <= Time.new.strftime("1800"))
-      tax = 5
-    else
-      tax = 7
-    end
-    @transf_amount = @transaction.amount + tax
     
     if @transaction.transaction_type == 'Deposit'
       if @transaction.save
@@ -50,6 +42,14 @@ class TransactionsController < ApplicationController
       if @bank_account.balance >= @transf_amount
         @account_receiver = BankAccount.find_by_account_number(@transaction.account_receiver)    
         if @account_receiver != nil && @account_receiver.account_number != @bank_account.account_number
+          if @transaction.amount > 1000
+            tax = 10
+          elsif Date.today.on_weekday? && Time.new.strftime("%k%M") >= Time.new.strftime("0900") && Time.new.strftime("%k%M") <= Time.new.strftime("1800")
+            tax = 5
+          else
+            tax = 7
+          end
+          @transf_amount = @transaction.amount + tax
           @transaction.save
           @transaction.account_receiver = @account_receiver.account_number        
           @bank_account.update!(balance: @bank_account.balance - @transf_amount)

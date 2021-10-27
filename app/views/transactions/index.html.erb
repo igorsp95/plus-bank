@@ -24,6 +24,15 @@
       <table  class="table table-striped table-bordered mt-3">
         <tbody>
           <% @transactions.reverse.each do |t| %>
+          <%
+            if t.amount > 1000
+              tax = 10
+            elsif t.created_at.on_weekday? && t.created_at.strftime("%k%M") >= Time.new.strftime("0900") && t.created_at.strftime("%k%M") <= Time.new.strftime("1800")
+              tax = 5
+            else
+              tax = 7
+            end
+            %>
             <tr>
               <td class="trans-date">
                 <%= t.created_at.time.strftime("%d of %B, %Y") %> - <%= t.created_at.time.strftime("%I:%M %p") %>
@@ -39,13 +48,13 @@
               </td>
               <td>
                 <% if t.transaction_type == 'Deposit'%>
-                  <%= number_to_currency(t.amount, unit: '+ R$') %>
+                  <%= number_to_currency(t.amount, unit: '+ U$') %>
                 <% elsif t.transaction_type == 'Withdraw'%>
-                  <%= number_to_currency(t.amount, unit: '- R$') %>
+                  <%= number_to_currency(t.amount, unit: '- U$') %>
                 <% elsif t.transaction_type == 'Transfer' %>
-                  <%= number_to_currency(t.amount, unit: '- R$') %> + tax
+                  <%= number_to_currency(t.amount, unit: '- U$') %> + <%= tax %>
                 <% elsif t.transaction_type == 'Transfer Received' %>
-                  <%= number_to_currency(t.amount, unit: '+ R$') %>  
+                  <%= number_to_currency(t.amount, unit: '+ U$') %>  
                 <% end %>
               </td>
             </tr>

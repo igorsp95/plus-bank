@@ -54,9 +54,9 @@
         <h4 class="account">Account: <%= @bank_account.account_number %></h4>
       </div>
       <div class="align-self-end">
+        <%= link_to "Filter Transacrtion", bank_account_transactions_path(@bank_account), class: "button-6" %>
         <%= link_to "Make Transaction", new_bank_account_transaction_path(@bank_account.id), class: "button-6 mb-2" %>
         <%= link_to "My Accounts", bank_accounts_path(@bank_account), class: "button-6" %>
-        <%= link_to "Filter Transacrtion", bank_account_transactions_path(@bank_account), class: "button-6" %>
       </div>
     </div>
     <hr class="mb-4">
@@ -72,7 +72,7 @@
             <%
             if t.amount > 1000
               tax = 10
-            elsif t.created_at.on_weekday? && ((t.created_at.time.strftime("%k%M") >= Time.new.strftime("900")) || (t.created_at.time.strftime("%k%M") <= Time.new.strftime("1800")))
+            elsif t.created_at.on_weekday? && t.created_at.strftime("%k%M") >= Time.new.strftime("0900") && t.created_at.strftime("%k%M") <= Time.new.strftime("1800")
               tax = 5
             else
               tax = 7
@@ -93,13 +93,13 @@
               </td>
               <td>
                 <% if t.transaction_type == 'Deposit'%>
-                  <%= number_to_currency(t.amount, unit: '+ R$') %>
+                  <%= number_to_currency(t.amount, unit: '+ U$') %>
                 <% elsif t.transaction_type == 'Withdraw'%>
-                  <%= number_to_currency(t.amount, unit: '- R$') %>
+                  <%= number_to_currency(t.amount, unit: '- U$') %>
                 <% elsif t.transaction_type == 'Transfer' %>
-                  <%= number_to_currency(t.amount, unit: '- R$') %> + <%= tax %>
+                  <%= number_to_currency(t.amount, unit: '- U$') %> + <%= tax %>
                 <% elsif t.transaction_type == 'Transfer Received' %>
-                  <%= number_to_currency(t.amount, unit: '+ R$') %>  
+                  <%= number_to_currency(t.amount, unit: '+ U$') %>  
                 <% end %>
               </td>
               <td>
