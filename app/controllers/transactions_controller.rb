@@ -43,7 +43,7 @@ class TransactionsController < ApplicationController
       elsif @transaction.transaction_type == 'Transfer'
         if @transaction.amount > 1000
           tax = 10
-        elsif Date.today.on_weekday? && Time.new.strftime("%k%M") >= Time.new.strftime("0900") && Time.new.strftime("%k%M") <= Time.new.strftime("1800")
+        elsif Date.today.on_weekday? && Time.now.hour >= 9 && Time.now.hour < 18
           tax = 5
         else
           tax = 7
