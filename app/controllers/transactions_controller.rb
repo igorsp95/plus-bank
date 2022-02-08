@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
+  before_action :set_bank_account, only: [:index, :new]
 
   def index
-    @bank_account = BankAccount.find(params[:bank_account_id])
     @transactions = @bank_account.transactions
     if params[:query].present? && params[:query_2].present?
       @my_transactions = @transactions.where(created_at: params[:query].to_time.beginning_of_day...params[:query_2].to_time.end_of_day)
@@ -11,7 +11,6 @@ class TransactionsController < ApplicationController
   end
 
   def new
-    @bank_account = BankAccount.find(params[:bank_account_id])
     @transaction = Transaction.new
   end
 
@@ -22,7 +21,7 @@ class TransactionsController < ApplicationController
     @transaction.account_sender = @bank_account.account_number
 
     if @transaction.amount != nil
-      
+      # ///// DEPOSIT /////
       if @transaction.transaction_type == 'Deposit'
         if @transaction.save
           @bank_account.update!(balance: @bank_account.balance + @transaction.amount)
@@ -31,6 +30,7 @@ class TransactionsController < ApplicationController
           flash[:notice] = 'Something went wrong. Try again later.'
           render :new
         end
+      # ///// WITHDRAW /////
       elsif @transaction.transaction_type == 'Withdraw'
         if @bank_account.balance >= @transaction.amount
           @transaction.save
@@ -40,7 +40,10 @@ class TransactionsController < ApplicationController
           flash[:notice] = "You don't have enough balance for this transaction."
           render :new
         end
+      # ///// TRANSFER /////
       elsif @transaction.transaction_type == 'Transfer'
+
+        # ///// TAX /////
         if @transaction.amount > 1000
           tax = 10
         elsif Date.today.on_weekday? && Time.now.hour >= 9 && Time.now.hour < 18
@@ -48,7 +51,9 @@ class TransactionsController < ApplicationController
         else
           tax = 7
         end
+
         @transf_amount = @transaction.amount + tax
+
         if @bank_account.balance >= @transf_amount
           @account_receiver = BankAccount.find_by_account_number(@transaction.account_receiver)    
           if @account_receiver != nil && @account_receiver.account_number != @bank_account.account_number
@@ -81,6 +86,10 @@ class TransactionsController < ApplicationController
   end
 
   private
+
+  def set_bank_account
+    @bank_account = BankAccount.find(params[:bank_account_id])
+  end
 
   def transaction_params
     params.require(:transaction).permit(:amount, :transaction_type, :bank_account_id, :account_receiver, :account_sender)
