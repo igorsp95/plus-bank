@@ -3,10 +3,16 @@ require 'rails_helper'
 RSpec.describe "Users::SignIns", type: :system do
   before do
     driven_by(:rack_test)
+
+    @user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name', :last_name => 'Exemplo Name')
+    @bank_account = BankAccount.create!(user_id: @user.id, :balance => 1000)
+
+    @user_2 = User.create!(:email => 'test2@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name', :last_name => 'Exemplo Name')
+    @bank_account_2 = BankAccount.create!(user_id: @user_2.id, :account_number => '272200')
   end
 
   it "User pode fazer login" do
-    user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name')
+    user = User.create!(:email => 'test3@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name', :last_name => 'Exemplo Name')
 
     visit "/users/sign_in"
     fill_in "Email", :with => user.email
@@ -16,30 +22,16 @@ RSpec.describe "Users::SignIns", type: :system do
     expect(page).to have_text('Signed in successfully.')
   end
 
-  it "User pode fazer criar login" do
-    visit "/users/sign_in"
-
-
-    click_link "Forgot your password?"
-  end
-
-  it "User pode lembrar login" do
-    visit "/users/sign_in"
-
-    check "Remember me"
-  end
-
   it "User pode visitar a pagia bank_accounts" do
-    user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name')
-    login_as(user, :scope => :user)
+    login_as(@user, :scope => :user)
+
     visit "/bank_accounts"
 
     expect(page).to have_text('My accounts')
   end
 
   it "User pode visitar a pagia bank_accounts e criar conta" do
-    user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name')
-    login_as(user, :scope => :user)
+    login_as(@user, :scope => :user)
 
     visit "/bank_accounts"
     click_link "Create Account"
@@ -48,8 +40,7 @@ RSpec.describe "Users::SignIns", type: :system do
   end
 
   it "User pode visitar bank_accounts/new criar conta e ver conta" do
-    user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name')
-    login_as(user, :scope => :user)
+    login_as(@user, :scope => :user)
 
     visit "/bank_accounts/new"
     click_button "Create New Account"
@@ -65,12 +56,9 @@ RSpec.describe "Users::SignIns", type: :system do
   end
 
   it "User pode visitar trasactions/new e fazer depósito" do
-    user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name')
-    login_as(user, :scope => :user)
+    login_as(@user, :scope => :user)
 
-    bank_account = BankAccount.create!(user_id: user.id)
-
-    visit "/bank_accounts/#{bank_account.id}/transactions/new"
+    visit "/bank_accounts/#{@bank_account.id}/transactions/new"
 
     select "Deposit", :from => "Transaction type"
     fill_in "Amount", :with => '100'
@@ -80,12 +68,9 @@ RSpec.describe "Users::SignIns", type: :system do
   end
 
   it "User pode visitar trasactions/new e fazer saque" do
-    user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name')
-    login_as(user, :scope => :user)
+    login_as(@user, :scope => :user)
 
-    bank_account = BankAccount.create!(user_id: user.id, :balance => 1000)
-
-    visit "/bank_accounts/#{bank_account.id}/transactions/new"
+    visit "/bank_accounts/#{@bank_account.id}/transactions/new"
 
     select "Withdraw", :from => "Transaction type"
     fill_in "Amount", :with => '100'
@@ -95,17 +80,12 @@ RSpec.describe "Users::SignIns", type: :system do
   end
 
   it "User pode visitar trasactions/new e fazer transferência" do
-    user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name')
-    bank_account = BankAccount.create!(user_id: user.id, :balance => 1000)
-    login_as(user, :scope => :user)
-    
-    user_2 = User.create!(:email => 'test2@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name')
-    bank_account_2 = BankAccount.create!(user_id: user_2.id, :account_number => '272200')
+    login_as(@user, :scope => :user)
 
-    visit "/bank_accounts/#{bank_account.id}/transactions/new"
+    visit "/bank_accounts/#{@bank_account.id}/transactions/new"
 
     select "Transfer", :from => "Transaction type"
-    fill_in "Account Number", visible: false, :with => bank_account_2.account_number
+    fill_in "Account Number", visible: false, :with => @bank_account_2.account_number
     fill_in "Amount", :with => '100'
     click_button 'Create Transaction'
 
@@ -113,12 +93,9 @@ RSpec.describe "Users::SignIns", type: :system do
   end
 
   it "User pode visitar /transactions e filtrar transações" do
-    user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd', :first_name => 'Exemplo Name')
-    login_as(user, :scope => :user)
-
-    bank_account = BankAccount.create!(user_id: user.id)
-
-    visit "/bank_accounts/#{bank_account.id}/transactions"
+    login_as(@user, :scope => :user)
+    
+    visit "/bank_accounts/#{@bank_account.id}/transactions"
 
     fill_in "query", :with => '01/01/2022'
     fill_in "query_2", :with => '01/02/2022'
