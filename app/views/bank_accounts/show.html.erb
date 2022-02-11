@@ -101,7 +101,7 @@
                 <% elsif t.transaction_type == 'Withdraw'%>
                   <%= number_to_currency(t.amount, unit: '- U$') %>
                 <% elsif t.transaction_type == 'Transfer' %>
-                  <%= number_to_currency(t.amount, unit: '- U$') %> + <%= number_to_currency(tax, unit: 'U$') %>(tax)
+                  <%= number_to_currency(t.amount, unit: '- (U$') %> + <%= number_to_currency(tax, unit: 'U$') %>(tax))
                 <% elsif t.transaction_type == 'Transfer Received' %>
                   <%= number_to_currency(t.amount, unit: '+ U$') %>  
                 <% end %>

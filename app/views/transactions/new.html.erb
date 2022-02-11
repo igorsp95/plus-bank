@@ -4,7 +4,7 @@
     <%= simple_form_for [@bank_account, @transaction] do |f| %>
       <div class="form-group">
         <div class="">
-          <%= f.input :transaction_type, prompt: 'Choose a transaction type', collection:['Withdraw', 'Deposit', 'Transfer'], class: "form-control", label:false, :input_html => {:onchange => "yesnoCheck(this)"}  %>
+          <%= f.input :transaction_type, prompt: 'Choose a transaction type', collection:['Withdraw', 'Deposit', 'Transfer'], class: "form-control", label: 'Transaction type', :input_html => {:onchange => "yesnoCheck(this)"}  %>
           <div id="adc" style="display: none;">
           <%= f.input :account_receiver, as: :string, placeholder: 'Account Number', class: "form-control", label:false %>
           </div>
